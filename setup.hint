@@ -1,5 +1,5 @@
 category: X11
-requires: libgcc1 libgdk_pixbuf2.0_0 libglib2.0_0 libgtk2.0_0 libintl8 libXau6
+requires: libgcc1 libgdk_pixbuf2.0_0 libglib2.0_0 libgtk2.0_0 libintl8 libX11_6 libXau6
 sdesc: "LXDE session manager"
 ldesc: "LXSession is the standard session manager used by LXDE. The 
 LXSession manager is used to automatically start a set of applications 
