@@ -1,0 +1,14 @@
+inherit gnome2
+
+CATEGORY="LXDE"
+SUMMARY="LXDE session manager"
+DESCRIPTION="LXSession is the standard session manager used by LXDE. The
+LXSession manager is used to automatically start a set of applications
+and set up a working desktop environment. Moreover, the session manager
+is able to remember the applications in use when a user logs out and to
+restart them the next time the user logs in."
+HOMEPAGE="http://lxde.org/"
+SRC_URI="mirror://sourceforge/lxde/${P}.tar.gz"
+
+# only required for ConsoleKit/UPower/HAL
+CYGCONF_ARGS="--disable-dbus"
