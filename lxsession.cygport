@@ -1,8 +1,8 @@
 inherit gnome2
 
 NAME="lxsession"
-VERSION=0.4.6.1
-RELEASE=2
+VERSION=0.5.1
+RELEASE=1
 CATEGORY="LXDE"
 SUMMARY="LXDE session manager"
 DESCRIPTION="LXSession is the standard session manager used by LXDE. The
@@ -11,7 +11,7 @@ and set up a working desktop environment. Moreover, the session manager
 is able to remember the applications in use when a user logs out and to
 restart them the next time the user logs in."
 HOMEPAGE="http://lxde.org/"
-SRC_URI="mirror://sourceforge/lxde/${NAME}-${VERSION}.tar.gz"
+SRC_URI="mirror://sourceforge/lxde/${NAME}-${VERSION}.tar.xz"
+PATCH_URI="0.5.1-no-polkit.patch"
 
-# only required for ConsoleKit/UPower/HAL
-CYGCONF_ARGS="--disable-dbus"
+OBSOLETES="lxsession-edit"
