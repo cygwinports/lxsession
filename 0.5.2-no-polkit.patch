@@ -1,5 +1,5 @@
---- origsrc/lxsession-0.5.1/Makefile.am	2014-10-11 05:18:08.000000000 -0500
-+++ src/lxsession-0.5.1/Makefile.am	2014-11-25 15:22:39.448450400 -0600
+--- origsrc/lxsession-0.5.2/Makefile.am	2014-11-29 08:50:05.000000000 -0600
++++ src/lxsession-0.5.2/Makefile.am	2014-12-03 18:49:12.050594400 -0600
 @@ -42,7 +42,6 @@ EXTRA_DIST = \
  
  if USE_GTK
@@ -8,9 +8,9 @@
      lxsession-db/lxsession-db \
      lxsession-edit/lxsession-edit \
      lxsession-logout/lxsession-logout \
-@@ -78,6 +77,10 @@ lxclipboard_lxclipboard_LDADD = \
-     $(X11_LIBS) \
-     $(NULL)
+@@ -89,6 +88,10 @@ lxclipboard_lxclipboard_CPPFLAGS += $(UN
+ lxclipboard_lxclipboard_LDADD += $(UNIQUE_LIBS)
+ endif
  
 +if HAVE_POLKIT
 +bin_PROGRAMS += \
@@ -19,18 +19,18 @@
  lxpolkit_lxpolkit_vala_SOURCES = \
      lxpolkit/main.vala \
      $(NULL)
-@@ -111,6 +114,7 @@ lxpolkit_lxpolkit_LDADD = \
-     $(POLKIT_LIBS) \
-     $(X11_LIBS) \
-     $(NULL)
+@@ -133,6 +136,7 @@ lxpolkit_lxpolkit_VALAFLAGS += --pkg uni
+ lxpolkit_lxpolkit_CPPFLAGS += $(UNIQUE_CFLAGS)
+ lxpolkit_lxpolkit_LDADD += $(UNIQUE_LIBS)
+ endif
 +endif # HAVE_POLKIT
  
  lxsession_db_lxsession_db_SOURCES = \
      lxsession-db/main.vala \
---- origsrc/lxsession-0.5.1/configure.ac	2014-10-17 13:11:57.000000000 -0500
-+++ src/lxsession-0.5.1/configure.ac	2014-11-25 15:19:39.416589200 -0600
-@@ -90,7 +90,7 @@ else
-   AC_SUBST(GTK_LIBS)
+--- origsrc/lxsession-0.5.2/configure.ac	2014-11-29 08:53:16.000000000 -0600
++++ src/lxsession-0.5.2/configure.ac	2014-12-03 18:50:15.251619900 -0600
+@@ -100,7 +100,7 @@ else
+   AC_SUBST(VALA_GTK_LIBS)
  
    polkit_modules="polkit-agent-1"
 -  PKG_CHECK_MODULES(POLKIT, [$polkit_modules])
@@ -38,11 +38,11 @@
    AC_SUBST(POLKIT_CFLAGS)
    AC_SUBST(POLKIT_LIBS)
  
-@@ -108,6 +108,7 @@ else
+@@ -118,6 +118,7 @@ else
  
  fi
  
 +AM_CONDITIONAL(HAVE_POLKIT, test "$HAVE_POLKIT" = "yes")
  AM_CONDITIONAL(USE_BUILDIN_CLIPBOARD, test "$use_buildin_clipboard" = "yes")
  AM_CONDITIONAL(USE_BUILDIN_POLKIT, test "$use_buildin_polkit" = "yes")
- if test "$use_buildin_polkit" = "yes"; then
+ AM_CONDITIONAL(USE_GTK3, test "$enable_gtk3" = "yes")

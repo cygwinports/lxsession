@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="lxsession"
-VERSION=0.5.1
+VERSION=0.5.2
 RELEASE=1
 CATEGORY="LXDE"
 SUMMARY="LXDE session manager"
@@ -12,6 +12,6 @@ is able to remember the applications in use when a user logs out and to
 restart them the next time the user logs in."
 HOMEPAGE="http://lxde.org/"
 SRC_URI="mirror://sourceforge/lxde/${NAME}-${VERSION}.tar.xz"
-PATCH_URI="0.5.1-no-polkit.patch"
+PATCH_URI="0.5.2-no-polkit.patch"
 
 OBSOLETES="lxsession-edit"
