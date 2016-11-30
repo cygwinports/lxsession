@@ -2,7 +2,7 @@ inherit gnome2
 
 NAME="lxsession"
 VERSION=0.5.2
-RELEASE=1
+RELEASE=2.20161127git725e359
 CATEGORY="LXDE"
 SUMMARY="LXDE session manager"
 DESCRIPTION="LXSession is the standard session manager used by LXDE. The
@@ -11,7 +11,39 @@ and set up a working desktop environment. Moreover, the session manager
 is able to remember the applications in use when a user logs out and to
 restart them the next time the user logs in."
 HOMEPAGE="http://lxde.org/"
-SRC_URI="mirror://sourceforge/lxde/${NAME}-${VERSION}.tar.xz"
-PATCH_URI="0.5.2-no-polkit.patch"
+#SRC_URI="mirror://sourceforge/lxde/${NAME}-${VERSION}.tar.xz"
+md5sum=${RELEASE#*git}7527ef093f89098c91c9d54133e6e383b
+SRC_URI="https://github.com/lxde/lxsession/archive/${md5sum}/lxsession-${md5sum}.tar.gz"
+SRC_DIR="lxsession-${md5sum}"
+PATCH_URI="
+	0.5.2-no-polkit.patch
+	0.5.2-apps-showin.patch
+	0.5.2-cyglock.patch
+	0.5.2-dbus.patch
+	0.5.2-xdg-menu-prefix.patch
+"
 
-OBSOLETES="lxsession-edit"
+PKG_NAMES="${NAME} ${NAME}-edit"
+lxsession_CONTENTS="
+	--exclude=lxsession-edit*
+	usr/bin/lxclipboard.exe
+	usr/bin/lxlock
+	usr/bin/lxsession*
+	usr/bin/lxsettings-daemon.exe
+	usr/share/applications/lxsession-default-apps.desktop
+	usr/share/doc/lxsession/
+	usr/share/locale/*/LC_MESSAGES/lxsession.mo
+	usr/share/lxsession/images/
+	usr/share/lxsession/ui/lxsession-default-apps.ui
+	usr/share/man/man1/lxclipboard.1*
+	usr/share/man/man1/lxlock.1*
+	usr/share/man/man1/lxsession*.1*
+"
+lxsession_edit_CONTENTS="
+	usr/bin/lxsession-edit.exe
+	usr/share/applications/lxsession-edit.desktop
+	usr/share/lxsession/ui/lxsession-edit.ui
+"
+
+# the joys of rebuilding vala code
+DIFF_EXCLUDES="LINGUAS *.c *_vala.stamp"

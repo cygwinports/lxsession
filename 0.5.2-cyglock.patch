@@ -1,0 +1,11 @@
+--- a/lxlock/lxlock	2016-11-27 16:36:02.000000000 -0600
++++ b/lxlock/lxlock	2016-11-29 23:07:55.282131200 -0600
+@@ -29,6 +29,8 @@ elif pidof xscreensaver >/dev/null; then
+     xscreensaver-command -lock >/dev/null 2>&1
+ elif pidof gnome-screensaver >/dev/null; then
+     gnome-screensaver-command --lock
++elif which cyglock >/dev/null 2>&1; then
++    cyglock
+ elif which slock >/dev/null 2>&1; then
+     slock &
+ elif which xlock >/dev/null 2>&1; then

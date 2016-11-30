@@ -1,0 +1,16 @@
+--- a/data/lxsession-default-apps.desktop.in	2016-11-27 16:36:02.000000000 -0600
++++ b/data/lxsession-default-apps.desktop.in	2016-11-29 18:52:29.953637400 -0600
+@@ -5,4 +5,4 @@ Exec=lxsession-default-apps
+ _Name=Default applications for LXSession
+ _Comment=Change the default applications on LXDE
+ Categories=GTK;Settings;DesktopSettings;X-LXDE-Settings;
+-OnlyShowIn=LXDE;
++OnlyShowIn=LXDE;X-Cygwin;
+--- a/data/lxsession-edit.desktop.in	2016-11-27 16:36:02.000000000 -0600
++++ b/data/lxsession-edit.desktop.in	2016-11-29 17:24:56.866995500 -0600
+@@ -5,4 +5,4 @@ Exec=lxsession-edit
+ _Name=Desktop Session Settings
+ _Comment=Manage applications loaded in desktop session
+ Categories=GTK;Settings;DesktopSettings;X-LXDE-Settings;
+-OnlyShowIn=LXDE;
++OnlyShowIn=LXDE;X-Cygwin;

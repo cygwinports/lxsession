@@ -1,5 +1,5 @@
---- origsrc/lxsession-0.5.2/Makefile.am	2014-11-29 08:50:05.000000000 -0600
-+++ src/lxsession-0.5.2/Makefile.am	2014-12-03 18:49:12.050594400 -0600
+--- a/Makefile.am	2016-11-27 16:36:02.000000000 -0600
++++ b/Makefile.am	2016-11-29 17:00:21.086227800 -0600
 @@ -42,7 +42,6 @@ EXTRA_DIST = \
  
  if USE_GTK
@@ -8,7 +8,7 @@
      lxsession-db/lxsession-db \
      lxsession-edit/lxsession-edit \
      lxsession-logout/lxsession-logout \
-@@ -89,6 +88,10 @@ lxclipboard_lxclipboard_CPPFLAGS += $(UN
+@@ -91,6 +90,10 @@ lxclipboard_lxclipboard_CPPFLAGS += $(UN
  lxclipboard_lxclipboard_LDADD += $(UNIQUE_LIBS)
  endif
  
@@ -19,7 +19,7 @@
  lxpolkit_lxpolkit_vala_SOURCES = \
      lxpolkit/main.vala \
      $(NULL)
-@@ -133,6 +136,7 @@ lxpolkit_lxpolkit_VALAFLAGS += --pkg uni
+@@ -137,6 +140,7 @@ lxpolkit_lxpolkit_VALAFLAGS += --pkg uni
  lxpolkit_lxpolkit_CPPFLAGS += $(UNIQUE_CFLAGS)
  lxpolkit_lxpolkit_LDADD += $(UNIQUE_LIBS)
  endif
@@ -27,9 +27,9 @@
  
  lxsession_db_lxsession_db_SOURCES = \
      lxsession-db/main.vala \
---- origsrc/lxsession-0.5.2/configure.ac	2014-11-29 08:53:16.000000000 -0600
-+++ src/lxsession-0.5.2/configure.ac	2014-12-03 18:50:15.251619900 -0600
-@@ -100,7 +100,7 @@ else
+--- a/configure.ac	2016-11-27 16:36:02.000000000 -0600
++++ b/configure.ac	2016-11-29 17:00:21.090216900 -0600
+@@ -92,7 +92,7 @@ else
    AC_SUBST(VALA_GTK_LIBS)
  
    polkit_modules="polkit-agent-1"
@@ -38,7 +38,7 @@
    AC_SUBST(POLKIT_CFLAGS)
    AC_SUBST(POLKIT_LIBS)
  
-@@ -118,6 +118,7 @@ else
+@@ -116,6 +116,7 @@ else
  
  fi
  
@@ -46,3 +46,36 @@
  AM_CONDITIONAL(USE_BUILDIN_CLIPBOARD, test "$use_buildin_clipboard" = "yes")
  AM_CONDITIONAL(USE_BUILDIN_POLKIT, test "$use_buildin_polkit" = "yes")
  AM_CONDITIONAL(USE_GTK3, test "$enable_gtk3" = "yes")
+--- a/data/Makefile.am	2016-11-27 16:36:02.000000000 -0600
++++ b/data/Makefile.am	2016-11-29 17:09:06.945404600 -0600
+@@ -10,9 +10,11 @@ desktop_in_files = \
+ 	lxsession-edit.desktop.in \
+ 	$(NULL)
+ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
++if HAVE_POLKIT
+ autostartdir = $(sysconfdir)/xdg/autostart
+ autostart_in_files = lxpolkit.desktop.in
+ autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
++endif
+ @INTLTOOL_DESKTOP_RULE@
+ DISTCLEANFILES = \
+ 	lxsession-default-apps.desktop \
+--- a/data/ui/Makefile.am	2016-11-27 16:36:02.000000000 -0600
++++ b/data/ui/Makefile.am	2016-11-30 00:50:57.860207100 -0600
+@@ -3,11 +3,15 @@ NULL=
+ # GtkBuilder UI definition files
+ uidir=$(datadir)/lxsession/ui
+ ui_DATA= \
+-	lxpolkit.ui \
+ 	lxsession-default-apps.ui \
+ 	lxsession-edit.ui \
+ 	$(NULL)
+ 
++if HAVE_POLKIT
++ui_DATA += \
++	lxpolkit.ui
++endif
++
+ EXTRA_DIST= \
+ 	$(ui_DATA) \
+ 	$(NULL)
