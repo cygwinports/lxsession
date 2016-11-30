@@ -19,7 +19,6 @@ PATCH_URI="
 	0.5.2-no-polkit.patch
 	0.5.2-apps-showin.patch
 	0.5.2-cyglock.patch
-	0.5.2-dbus.patch
 	0.5.2-xdg-menu-prefix.patch
 "
 
