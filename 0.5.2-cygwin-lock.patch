@@ -4,8 +4,8 @@
      xscreensaver-command -lock >/dev/null 2>&1
  elif pidof gnome-screensaver >/dev/null; then
      gnome-screensaver-command --lock
-+elif which cyglock >/dev/null 2>&1; then
-+    cyglock
++elif which cygcheck >/dev/null 2>&1; then
++    rundll32 user32.dll,LockWorkStation
  elif which slock >/dev/null 2>&1; then
      slock &
  elif which xlock >/dev/null 2>&1; then

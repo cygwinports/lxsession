@@ -1,0 +1,114 @@
+https://sourceforge.net/p/lxde/bugs/846/
+
+--- origsrc/lxsession-725e3597527ef093f89098c91c9d54133e6e383b/data/ui/lxsession-default-apps.ui	2016-11-27 16:36:02.000000000 -0600
++++ src/lxsession-725e3597527ef093f89098c91c9d54133e6e383b/data/ui/lxsession-default-apps.ui	2016-12-01 11:00:04.396230100 -0600
+@@ -1949,7 +1949,7 @@
+                               </packing>
+                             </child>
+                             <child>
+-                              <object class="GtkLabel" id="image_display_label">
++                              <object class="GtkLabel" id="images_display_label">
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">False</property>
+                                 <property name="label" translatable="yes">Image viewer</property>
+@@ -1960,7 +1960,7 @@
+                               </packing>
+                             </child>
+                             <child>
+-                              <object class="GtkComboBox" id="image_display_combobox">
++                              <object class="GtkComboBox" id="images_display_combobox">
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">False</property>
+                               </object>
+@@ -1972,7 +1972,7 @@
+                               </packing>
+                             </child>
+                             <child>
+-                              <object class="GtkButton" id="image_display_help_button">
++                              <object class="GtkButton" id="images_display_help_button">
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">True</property>
+                                 <property name="receives_default">True</property>
+@@ -1987,7 +1987,7 @@
+                               </packing>
+                             </child>
+                             <child>
+-                              <object class="GtkButton" id="image_display_reload">
++                              <object class="GtkButton" id="images_display_reload">
+                                 <property name="label" translatable="yes">Reload</property>
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">True</property>
+@@ -2002,7 +2002,7 @@
+                               </packing>
+                             </child>
+                             <child>
+-                              <object class="GtkButton" id="image_display_more">
++                              <object class="GtkButton" id="images_display_more">
+                                 <property name="label" translatable="yes">More</property>
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">True</property>
+--- origsrc/lxsession-725e3597527ef093f89098c91c9d54133e6e383b/lxsession-db/desktop-files-backend.vala	2016-12-01 10:35:32.393535600 -0600
++++ src/lxsession-725e3597527ef093f89098c91c9d54133e6e383b/lxsession-db/desktop-files-backend.vala	2016-12-01 11:00:04.419295300 -0600
+@@ -75,10 +75,10 @@ namespace Lxsession
+ 
+         public string viewer_blacklist;
+ 
+-        public List<string> image_display_installed = new List<string> ();
++        public List<string> images_display_installed = new List<string> ();
+         public List<string> pdf_reader_installed = new List<string> ();
+ 
+-        public List<string> image_display_available = new List<string> ();
++        public List<string> images_display_available = new List<string> ();
+         public List<string> pdf_reader_available = new List<string> ();
+ 
+         public string text_editor_blacklist;
+@@ -669,12 +669,12 @@ namespace Lxsession
+                             string new_entry = create_entry(kf, desktop_path);
+                             if (mode == "installed")
+                             {
+-                                image_display_installed.append(new_entry);
++                                images_display_installed.append(new_entry);
+                                 pdf_reader_installed.append(new_entry);
+                             }
+                             else if (mode == "available")
+                             {
+-                                image_display_available.append(new_entry);
++                                images_display_available.append(new_entry);
+                                 pdf_reader_available.append(new_entry);
+                             }
+                         }
+@@ -876,7 +876,7 @@ namespace Lxsession
+             keyfile_set_list_string(kf, "Mime", "audio_player/installed", audio_installed);
+             keyfile_set_list_string(kf, "Mime", "video_player/installed", video_installed);
+             keyfile_set_list_string(kf, "Mime", "pdf_reader/installed", pdf_reader_installed);
+-            keyfile_set_list_string(kf, "Mime", "image_display/installed", image_display_installed);
++            keyfile_set_list_string(kf, "Mime", "images_display/installed", images_display_installed);
+             keyfile_set_list_string(kf, "Mime", "text_editor/installed", text_editor_installed);
+             keyfile_set_list_string(kf, "Mime", "archive/installed", archive_installed);
+             keyfile_set_list_string(kf, "Mime", "spreadsheet/installed", spreadsheet_installed);
+@@ -904,7 +904,7 @@ namespace Lxsession
+             keyfile_set_list_string(kf, "Mime", "audio_player/available", audio_available);
+             keyfile_set_list_string(kf, "Mime", "video_player/available", video_available);
+             keyfile_set_list_string(kf, "Mime", "pdf_reader/available", pdf_reader_available);
+-            keyfile_set_list_string(kf, "Mime", "image_display/available", image_display_available);
++            keyfile_set_list_string(kf, "Mime", "images_display/available", images_display_available);
+             keyfile_set_list_string(kf, "Mime", "text_editor/available", text_editor_available);
+             keyfile_set_list_string(kf, "Mime", "archive/available", archive_available);
+             keyfile_set_list_string(kf, "Mime", "spreadsheet/available", spreadsheet_available);
+--- origsrc/lxsession-725e3597527ef093f89098c91c9d54133e6e383b/lxsession-default-apps/main.vala	2016-11-27 16:36:02.000000000 -0600
++++ src/lxsession-725e3597527ef093f89098c91c9d54133e6e383b/lxsession-default-apps/main.vala	2016-12-01 11:00:04.440237000 -0600
+@@ -270,10 +270,10 @@ namespace LDefaultApps
+             string audio_player_more_help_message = manual_setting_help + mime_association_help + mime_available_help;
+             init_application_combobox (builder, kf, dbus_backend, "audio_player", "", audio_player_help_message, audio_player_more, audio_player_more_help_message, null);
+ 
+-            string image_display_help_message = _("Application to display images");
+-            string[] image_display_more = {"combobox_manual", "mime_association", "mime_available"};
+-            string image_display_more_help_message = manual_setting_help + mime_association_help + mime_available_help;
+-            init_application_combobox (builder, kf, dbus_backend, "image_display", "", image_display_help_message, image_display_more, image_display_more_help_message, "image_display");
++            string images_display_help_message = _("Application to display images");
++            string[] images_display_more = {"combobox_manual", "mime_association", "mime_available"};
++            string images_display_more_help_message = manual_setting_help + mime_association_help + mime_available_help;
++            init_application_combobox (builder, kf, dbus_backend, "images_display", "", images_display_help_message, images_display_more, images_display_more_help_message, "images_display");
+ 
+             string text_editor_help_message = _("Application to edit text");
+             string[] text_editor_more = {"combobox_manual", "mime_association", "mime_available", "debian_default"};

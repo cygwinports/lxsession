@@ -1,8 +1,8 @@
 inherit gnome2
 
 NAME="lxsession"
-VERSION=0.5.2
-RELEASE=2.20161127git725e359
+VERSION=0.5.3
+RELEASE=1
 CATEGORY="LXDE"
 SUMMARY="LXDE session manager"
 DESCRIPTION="LXSession is the standard session manager used by LXDE. The
@@ -11,15 +11,22 @@ and set up a working desktop environment. Moreover, the session manager
 is able to remember the applications in use when a user logs out and to
 restart them the next time the user logs in."
 HOMEPAGE="http://lxde.org/"
-#SRC_URI="mirror://sourceforge/lxde/${NAME}-${VERSION}.tar.xz"
-md5sum=${RELEASE#*git}7527ef093f89098c91c9d54133e6e383b
-SRC_URI="https://github.com/lxde/lxsession/archive/${md5sum}/lxsession-${md5sum}.tar.gz"
-SRC_DIR="lxsession-${md5sum}"
+SRC_URI="mirror://sourceforge/lxde/${NAME}-${VERSION}.tar.xz"
+#md5sum=${RELEASE#*git}7527ef093f89098c91c9d54133e6e383b
+#SRC_URI="https://github.com/lxde/lxsession/archive/${md5sum}/lxsession-${md5sum}.tar.gz"
+#SRC_DIR="lxsession-${md5sum}"
 PATCH_URI="
+	http://src.fedoraproject.org/cgit/rpms/lxsession.git/plain/lxsession-0.5.2-git9f8d6133-reload.patch
+	http://src.fedoraproject.org/cgit/rpms/lxsession.git/plain/lxsession-0.5.2-notify-daemon-default.patch
+	http://src.fedoraproject.org/cgit/rpms/lxsession.git/plain/lxsession-edit-0.5.2-fix-invalid-memcpy.patch
+	http://src.fedoraproject.org/cgit/rpms/lxsession.git/plain/1004-Never-free-buffer-returned-by-gtk_entry_get_text.patch
 	0.5.2-no-polkit.patch
 	0.5.2-apps-showin.patch
-	0.5.2-cyglock.patch
+	0.5.2-cygwin-lock.patch
 	0.5.2-xdg-menu-prefix.patch
+	0.5.2-db-categories.patch
+	0.5.2-images_display.patch
+	0.5.3-ayatana.patch
 "
 
 PKG_NAMES="${NAME} ${NAME}-edit"
@@ -29,6 +36,7 @@ lxsession_CONTENTS="
 	usr/bin/lxlock
 	usr/bin/lxsession*
 	usr/bin/lxsettings-daemon.exe
+	usr/libexec/lxsession/
 	usr/share/applications/lxsession-default-apps.desktop
 	usr/share/doc/lxsession/
 	usr/share/locale/*/LC_MESSAGES/lxsession.mo
@@ -37,12 +45,16 @@ lxsession_CONTENTS="
 	usr/share/man/man1/lxclipboard.1*
 	usr/share/man/man1/lxlock.1*
 	usr/share/man/man1/lxsession*.1*
+	usr/share/man/man1/lxsettings-daemon.1*
 "
 lxsession_edit_CONTENTS="
 	usr/bin/lxsession-edit.exe
 	usr/share/applications/lxsession-edit.desktop
 	usr/share/lxsession/ui/lxsession-edit.ui
+	usr/share/man/man1/lxsession-edit.1*
 "
 
 # the joys of rebuilding vala code
 DIFF_EXCLUDES="LINGUAS *.c *_vala.stamp"
+
+CYGCONF_ARGS="--enable-advanced-notifications"

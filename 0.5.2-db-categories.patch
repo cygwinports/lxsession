@@ -1,0 +1,92 @@
+--- origsrc/lxsession-725e3597527ef093f89098c91c9d54133e6e383b/lxsession-db/desktop-files-backend.vala	2016-12-01 11:04:26.084390600 -0600
++++ src/lxsession-725e3597527ef093f89098c91c9d54133e6e383b/lxsession-db/desktop-files-backend.vala	2016-12-01 11:47:42.743623400 -0600
+@@ -567,7 +567,7 @@ namespace Lxsession
+                             }
+                         }
+                     }
+-                    if ("InstantMessaging" in categories)
++                    if ("InstantMessaging" in categories || "IRCClient" in categories)
+                     {
+                         if (name in im_blacklist)
+                         {
+@@ -626,65 +626,41 @@ namespace Lxsession
+                             }
+                         }
+                     }
+-                    if ("AudioVideo" in categories)
++                    if ("Player" in categories)
+                     {
+                         if (name in audio_video_blacklist)
+                         {
+                             /* Blacklisted, pass */
+                         }
++                        else if (name in audio_blacklist)
++                        {
++                            /* Blacklisted, pass */
++                        }
++                        else if (name in video_blacklist)
++                        {
++                            /* Blacklisted, pass */
++                        }
+                         else
+                         {
+                             string new_entry = create_entry(kf, desktop_path);
+                             if (mode == "installed")
+                             {
+                                 audio_installed.append(new_entry);
+-                                video_installed.append(new_entry);
+-                            }
+-                            else if (mode == "available")
+-                            {
+-                                audio_installed.append(new_entry);
+-                                video_available.append(new_entry);
+-                            }
+-                        }
+-                    }
+-                    else if ("Audio" in categories)
+-                        {
+-                            if (name in audio_blacklist)
+-                            {
+-                                /* Blacklisted, pass */
+-                            }
+-                            else
+-                            {
+-                                string new_entry = create_entry(kf, desktop_path);
+-                                if (mode == "installed")
+-                                {
+-                                    audio_installed.append(new_entry);
+-                                }
+-                                else if (mode == "available")
++                                if (";Video" in categories || !("Audio;" in categories))
+                                 {
+-                                    audio_available.append(new_entry);
++                                    video_installed.append(new_entry);
+                                 }
+                             }
+-                        }
+-                    else if ("Video" in categories)
+-                        {
+-                            if (name in video_blacklist)
+-                            {
+-                                /* Blacklisted, pass */
+-                            }
+-                            else
++                            else if (mode == "available")
+                             {
+-                                string new_entry = create_entry(kf, desktop_path);
+-                                if (mode == "installed")
+-                                {
+-                                    video_installed.append(new_entry);
+-                                }
+-                                else if (mode == "available")
++                                audio_available.append(new_entry);
++                                if (";Video" in categories || !("Audio;" in categories))
+                                 {
+                                     video_available.append(new_entry);
+                                 }
+                             }
+                         }
++                    }
+ 
+                     if ("Viewer" in categories)
+                     {

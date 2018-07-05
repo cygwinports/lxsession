@@ -1,6 +1,6 @@
 --- a/lxsession-default-apps/combobox.vala	2016-11-27 16:36:02.000000000 -0600
 +++ b/lxsession-default-apps/combobox.vala	2016-11-29 18:51:28.414636900 -0600
-@@ -647,9 +647,10 @@ namespace LDefaultApps
+@@ -647,15 +647,15 @@ namespace LDefaultApps
  
      void save_mime_type(string[] mime_list, string base_name)
      {
@@ -14,3 +14,9 @@
  
          if (mime_list != null)
          {
+             for (int i = 0 ; i < mime_list.length ; i++)
+             {
+-                kf_mimeapps.set_string("Added Associations", mime_list[i], base_name);
+                 kf_mimeapps.set_string("Default Applications", mime_list[i], base_name);
+             }
+         }
